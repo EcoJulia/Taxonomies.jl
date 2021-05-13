@@ -1,0 +1,4 @@
+name = "BioTIME"
+uuid = "60a7ea71-f676-45d4-8f01-1d966440d6a4"
+authors = ["michael catchen <michael.catchen@colorado.edu>"]
+version = "0.1.0"
