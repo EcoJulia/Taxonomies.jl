@@ -4,33 +4,39 @@
 
 
     What makes this a `FixedRankTaxonomy` is that within the
-    ClassificationTree `tree`, the depth of each node corresponds
-    to that index in `ranks`.
+    ClassificationTree `tree`, the depth of each node `d` corresponds
+    to the index `d` in `ranks`.
     
     To use a taxonomy that enables classifications that do not correspond
     to a rank in `ranks`, e.g. super-class, sub-genera, sub-sub-family, etc,
-    se `FlexibleTaxonomy`
+    see `FlexibleTaxonomy`
     
 """
 struct FixedRankTaxonomy <: AbstractTaxonomy 
-    ranks::Vector{AbstractRank}
+    ranks::Vector{TaxonomicRank}
     tree::FixedRankClassificationTree
+    FixedRankTaxonomy(; ranks = defaultranks()) = new(ranks, nothing)
 end 
 
+
+"""
+    FlexibleRankTaxonomy
+    
+    A `FlexibleTaxonomy` contains a set of `TaxonomicRanks`,
+    but does not enfore that the depth of each node `d` correspond
+    to a rank; instead "between"-ranks separating
+    named ranks can exist, and are described as being arbitrary numbers of either `super` or `sub`
+    from the nearest named rank.
+    
+"""
 struct FlexibleRankTaxonomy <: AbstractTaxonomy 
-    ranks::Vector{AbstractRank}
+    ranks::Vector{TaxonomicRank}
     tree::FlexibleRankClassificationTree
+    FlexibleRankTaxonomy(; ranks = defaultranks()) = new(ranks, nothing)
 end 
 
 tree(t::AbstractTaxonomy) = t.tree
 ranks(t::AbstractTaxonomy) = t.ranks
 
 
-"""
-    NormalTaxonomy is a FixedRankTaxonomy with the ranks (in order):
-    `[Domain Kingdom Phylum Class Order Family Genus Species]`
-    
-    It should probably have a better name 
-"""
-NormalTaxonomy(tree::FixedRankClassificationTree) = FixedRankTaxonomy([TaxonomicRank(s,i) for (i,s) in enumerate(["Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"])], tree)
-NormalTaxonomy(; tree = FixedRankClassificationTree()) = NormalTaxonomy(tree)
+defaultranks() = [TaxonomicRank(s,i) for (i,s) in enumerate(["Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"])]
