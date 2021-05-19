@@ -14,13 +14,13 @@
     se `FlexibleTaxonomy`
     
 """
-struct FixedTaxonomy <: AbstractTaxonomy 
+struct FixedRankTaxonomy <: AbstractTaxonomy 
     ranks::Vector{AbstractRank}
     tree::FixedRankClassificationTree
 end 
 
 
-struct FlexibleTaxonomy <: AbstractTaxonomy 
+struct FlexibleRankTaxonomy <: AbstractTaxonomy 
     ranks::Vector{AbstractRank}
     tree::FlexibleRankClassificationTree
 end 
