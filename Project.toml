@@ -4,4 +4,6 @@ authors = ["michael catchen <michael.catchen@colorado.edu>"]
 version = "0.0.1"
 
 [deps]
+AbstractTrees = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
 NCBITaxonomy = "f88b31d2-eb98-4433-b52d-2dd32bc6efce"
+Phylo = "aea672f4-3940-5932-aa44-993d1c3ff149"
