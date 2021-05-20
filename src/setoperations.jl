@@ -68,7 +68,7 @@ end
     Base dispatch for union of two taxnomies. 
 
     Should return a taxonomy with all of the species 
-    within both `A` and `B`.
+    combined between `A` and `B`.
 
 """
 function Base.:∪(A::AbstractTaxonomy, B::AbstractTaxonomy)
