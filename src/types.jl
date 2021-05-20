@@ -10,6 +10,10 @@ abstract type AbstractTaxon end
     and the corresponding depth of that rank in the taxonomy. 
 """
 struct TaxonomicRank
-    name::String
+    name::Symbol
     taxonomydepth::Int 
 end
+
+struct NCBITaxonWrapper <: AbstractTaxon
+    val::NCBITaxon
+end 

@@ -14,7 +14,7 @@
 """
 struct FixedRankTaxonomy <: AbstractTaxonomy 
     ranks::Vector{TaxonomicRank}
-    tree::FixedRankClassificationTree
+    tree::Union{FixedRankClassificationTree, Nothing}
     FixedRankTaxonomy(; ranks = defaultranks()) = new(ranks, nothing)
 end 
 
@@ -31,7 +31,7 @@ end
 """
 struct FlexibleRankTaxonomy <: AbstractTaxonomy 
     ranks::Vector{TaxonomicRank}
-    tree::FlexibleRankClassificationTree
+    tree::Union{FlexibleRankClassificationTree, Nothing}
     FlexibleRankTaxonomy(; ranks = defaultranks()) = new(ranks, nothing)
 end 
 

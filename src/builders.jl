@@ -5,13 +5,12 @@
     breadth-first search. 
 
 """
-function taxonomy(tx::NCBITaxon)
+function taxonomy(tx::AbstractTaxon)
     root = TaxonNode(tx)
     
-
 end
 
 function _taxonomy(root::AbstractTaxon, tree::T) where {T <: AbstractTaxonomy}
-
+    
 end
 
