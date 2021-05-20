@@ -8,9 +8,9 @@
 """
 function Base.:⊆(a::AbstractTaxonomy, A::AbstractTaxonomy)
     # how can this evaluate false? 
-    # 1. a is lower to the rank than A, but a is not a clade of A
+    # 1. a is lower in rank than A, but a is not a clade of A
     # 2. a is higher rank than A, so function call doesn't make sense. throw warning 
-    # 3. a and A are not the same taxonomy, so function call doesn't make sense. throw error
+    # 3. a and A are not the same type of taxonomy, so function call doesn't make sense. throw error
 
     # how does this evaluate true?
     # 1. All of the species in a are also in A
@@ -28,8 +28,8 @@ end
 function Base.:⊊(a::AbstractTaxonomy, A::AbstractTaxonomy)
     # how can this evaluate false? 
     # 1. a is lower or equal to the rank than A, but a is not a clade of A
-    # 2. a is higher rank than A, so function call doesn't make sense. throw warning 
-    # 3. a and A are not the same taxonomy, so function call doesn't make sense. throw error
+    # 2. a is higher rank or equal in rank to A, so function call doesn't make sense. throw warning 
+    # 3. a and A are not the same type of taxonomy, so function call doesn't make sense. throw error
 
     # how does this evaluate true?
     # 1. All of the species in a are also in A and a is a lower rank than A
@@ -50,3 +50,33 @@ Base.:∈(a::AbstractTaxonomy, A::AbstractTaxonomy) = Base.:⊆(a,A)
 """
 function Base.:⊂(a::AbstractTaxonomy, A::AbstractTaxonomy)
 end 
+
+"""
+    Base.:∩(A::AbstractTaxonomy, B::AbstractTaxonomy)
+
+    Base dispatch for intersection of two taxonomies.
+
+    Should return a taxonomy with the set of taxa 
+    that exist within both `A` and `B`.
+"""
+function Base.:∩(A::AbstractTaxonomy, B::AbstractTaxonomy)
+end
+
+"""
+    Base.∪:(A::AbstractTaxonomy, B::AbstractTaxonomy)
+
+    Base dispatch for union of two taxnomies. 
+
+    Should return a taxonomy with all of the species 
+    within both `A` and `B`.
+
+"""
+function Base.:∪(A::AbstractTaxonomy, B::AbstractTaxonomy)
+
+    # Should throw an error if :
+    #   A and B are not of the same taxonomy type
+    # Should throw a warning if :
+    #   No common taxa found, so A and B merged via polytomy at the root
+    # Otherwise:
+    #   should find the highest order rank within A and B and root there.
+end
