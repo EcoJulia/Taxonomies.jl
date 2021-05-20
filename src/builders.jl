@@ -9,7 +9,20 @@ function taxonomy(tx::AbstractTaxon, tree::Type{T}) where {T <: AbstractTaxonomy
     root = TaxonNode(tx)
     _taxonomy!(root, tree)
 
-    return root
+    return _taxonomy(tree(root))
+end
+
+"""
+    _taxonomy(tree::T) 
+
+    all natural, organic, free-range depth-first search
+"""
+function _taxonomy(tree::FixedRankClassificationTree)
+    return FixedRankTaxonomy(tree)
+
+end
+function _taxonomy(tree::FlexibleRankClassificationTree)
+    return FlexibleRankTaxonomy(tree)
 end
 
 """

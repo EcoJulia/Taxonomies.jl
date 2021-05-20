@@ -10,7 +10,7 @@ abstract type AbstractTaxon end
     and the corresponding depth of that rank in the taxonomy. 
 """
 struct TaxonomicRank
-    name::Symbol
+    name::String
     taxonomydepth::Int 
 end
 

@@ -39,6 +39,9 @@ function AbstractTrees.children(node::TaxonNode)
     return []
 end
 
+AbstractTrees.printnode(io::IO, node::TaxonNode) = print(io, Taxonomy.taxon(node))
+
+
 function _addchild!(parent::TaxonNode, child::TaxonNode )
     push!(parent.children, child)
 end
