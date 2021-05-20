@@ -7,17 +7,15 @@ module Taxonomy
     export AbstractTaxonomy, AbstractRank, AbstractTaxon, AbstractClassificationTree, TaxonomicRank, NCBITaxonWrapper
 
     include(joinpath(".", "nodes.jl"))
-    export TaxonNode
-    
-    include(joinpath(".", "trees.jl"))
-    export FixedRankClassificationTree, FlexibleRankClassificationTree
+    export TaxonNode, FixedRankClassificationTree, FlexibleRankClassificationTree
+    export taxon
 
     include(joinpath(".", "taxonomies.jl"))
     export FixedRankTaxonomy, FlexibleRankTaxonomy
     export ranks, tree, defaultranks
 
     include(joinpath(".", "builders.jl"))
-    export taxonomy
+    export taxonomy, _addchild!, _addnode!
 end 
 
 
