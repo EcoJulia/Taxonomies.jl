@@ -12,10 +12,14 @@ module Taxonomy
 
     include(joinpath(".", "taxonomies.jl"))
     export FixedRankTaxonomy, FlexibleRankTaxonomy
-    export ranks, tree, defaultranks
+    export ranks, tree, root, defaultranks
 
     include(joinpath(".", "builders.jl"))
     export taxonomy, _addchild!, _addnode!
+
+
+    include(joinpath(".", "setoperations.jl"))
+    export ∈,⊊,⊂,⊆,∪,∩
 end 
 
 

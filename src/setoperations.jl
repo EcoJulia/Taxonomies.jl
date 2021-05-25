@@ -41,15 +41,7 @@ end
     Evaluates same as ⊆(a,A) .
 """
 Base.:∈(a::AbstractTaxonomy, A::AbstractTaxonomy) = Base.:⊆(a,A) 
-
-"""
-    Base.:⊂(a::AbstractTaxonomy, A::AbstractTaxonomy)
-
-    Sadly i think we need to decide whether this symbol means
-    formal subset or strict subset. 
-"""
-function Base.:⊂(a::AbstractTaxonomy, A::AbstractTaxonomy)
-end 
+⊂(a::AbstractTaxonomy, A::AbstractTaxonomy) = Base.:⊆(a,A) 
 
 """
     Base.:∩(A::AbstractTaxonomy, B::AbstractTaxonomy)

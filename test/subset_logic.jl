@@ -6,9 +6,12 @@ using NCBITaxonomy
 procs = ncbi"Procellariiformes"
 birds = ncbi"Aves"
 
-birdtaxonomy = taxonomy(NCBITaxonWrapper(birds), FlexibleRankClassificationTree)
-proctaxonomy = taxonomy(NCBITaxonWrapper(procs), FlexibleRankClassificationTree)
+birdtaxonomy = taxonomy(NCBITaxonWrapper(birds), FixedRankTaxonomy)
+proctaxonomy = taxonomy(NCBITaxonWrapper(procs), FixedRankTaxonomy)
 
-proctaxonomy ∈ birdtaxonomy == true
 
+# things that should be true
+birdtaxonomy ∩ proctaxonomy == proctaxnomy
+birdtaxonomy ∪ proctaxonomy == birdtaxonomy
 birdtaxonomy ∈ proctaxonomy == false
+proctaxonomy ∈ birdtaxonomy == true

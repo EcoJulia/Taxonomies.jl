@@ -3,6 +3,7 @@
 
 struct TaxonNode{T <: AbstractTaxon}
     taxon::T
+    rank::TaxonomicRank
     parent::Union{TaxonNode, Nothing}
     children::Vector{TaxonNode}
 end
@@ -12,14 +13,15 @@ end
 
     Constructor for TaxonNode with no parent (meaning it is the root of a tree).
 """
-TaxonNode(nctx::AbstractTaxon)  = TaxonNode(nctx, nothing, TaxonNode[])
+TaxonNode(nctx::AbstractTaxon, rank::TaxonomicRank)  = TaxonNode(nctx, rank, nothing, TaxonNode[])
 
 """
     TaxonNode(nctx::NCBITaxon,  parent::TaxonNode)
 
     Constructor for TaxonNode with a parent 
 """
-TaxonNode(nctx::AbstractTaxon, parent::TaxonNode) = TaxonNode(nctx, parent, TaxonNode[])
+TaxonNode(nctx::AbstractTaxon, rank::TaxonomicRank, parent::TaxonNode) = TaxonNode(nctx, rank, parent, TaxonNode[])
+
 
 
 taxon(node::TaxonNode{NCBITaxonWrapper}) = node.taxon.val 
@@ -46,8 +48,8 @@ function _addchild!(parent::TaxonNode, child::TaxonNode )
     push!(parent.children, child)
 end
 
-function _addnode!(newtaxon::AbstractTaxon, parent::TaxonNode)
-    newnode = TaxonNode(newtaxon, parent)
+function _addnode!(newtaxon::AbstractTaxon, rank::TaxonomicRank, parent::TaxonNode)
+    newnode = TaxonNode(newtaxon, rank, parent)
     _addchild!(parent, newnode)
 
     return newnode

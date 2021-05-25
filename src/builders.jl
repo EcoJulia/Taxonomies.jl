@@ -5,52 +5,42 @@
     breadth-first search. 
 
 """
-function taxonomy(tx::AbstractTaxon, tree::Type{T}) where {T <: AbstractTaxonomy}
-    root = TaxonNode(tx)
-    _taxonomy!(root, tree)
+function taxonomy(tx::AbstractTaxon, txnmytype::Type{T}) where {T <: AbstractTaxonomy}
+    root = TaxonNode(tx, TaxonomicRank(rank(tx.val),0)) # no good 
 
-    return _taxonomy(tree(root))
+    txnmy = txnmytype(root)
+    _taxonomy!(root, txnmy)
+
+    return txnmy
 end
 
-"""
-    _taxonomy(tree::T) 
-
-    all natural, organic, free-range depth-first search
-"""
-function _taxonomy(tree::FixedRankClassificationTree)
-    return FixedRankTaxonomy(tree)
-
-end
-function _taxonomy(tree::FlexibleRankClassificationTree)
-    return FlexibleRankTaxonomy(tree)
-end
 
 """
-    _taxonomy(root::AbstractTaxon, tree::T) 
+    _taxonomy!(root::TaxonNode{T}, tree::T) 
 
-    all natural, organic, free-range depth-first search
+    all natural, organic, free-range depth-first search.
 """
-function _taxonomy!(root::TaxonNode{T}, tree::Type{V}) where {T <: NCBITaxonWrapper,V <: FixedRankClassificationTree}
+function _taxonomy!(root::TaxonNode{T}, tax::FixedRankTaxonomy) where {T <: NCBITaxonWrapper}
     currentnode = root
     for child in NCBITaxonomy.children(taxon(currentnode))
-
-        # todo, don't add to tree if this taxon is not one of the fixed ranks in tree
-        # (tree == FixedClassificationTree) && isfixedrank(taxon(child), tree)
-        
-        newnode = _addnode!(NCBITaxonWrapper(child), currentnode)
-        _taxonomy!(newnode, tree)
+        childrank = rank(child)
+        if _isfixedrank(childrank, ranks(tax))
+            newnode = _addnode!(NCBITaxonWrapper(child), childrank, currentnode)
+            _taxonomy!(newnode, tax)
+        end
     end
 end
 
+function _isfixedrank(rank, ranks)
+    retval =  rank ∈ [r.name for r in ranks] # slow 
+    return retval
+end
 
-function _taxonomy!(root::TaxonNode{T}, tree::Type{V}) where {T <: NCBITaxonWrapper,V <: FlexibleRankClassificationTree}
+
+function _taxonomy!(root::TaxonNode{T}, tax::Type{FlexibleRankTaxonomy}) where {T <: NCBITaxonWrapper}
     currentnode = root
     for child in NCBITaxonomy.children(taxon(currentnode))
-
-        # todo, don't add to tree if this taxon is not one of the fixed ranks in tree
-        # (tree == FixedClassificationTree) && isfixedrank(taxon(child), tree)
-        
         newnode = _addnode!(NCBITaxonWrapper(child), currentnode)
-        _taxonomy!(newnode, tree)
+        _taxonomy!(newnode, tax)
     end
 end

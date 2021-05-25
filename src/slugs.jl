@@ -12,9 +12,9 @@ function apicall(uri, species)
 end 
 
 function apicall(uri, genus)
-    # replace %s with species name
+    # replace %g with species name
     specstr = species
-    replace(uri, r"%s" => specstr)
+    replace(uri, r"%g" => specstr)
 end 
 
 function apicall(uri, location::AbstractLocation)

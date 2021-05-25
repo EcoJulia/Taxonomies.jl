@@ -14,9 +14,8 @@
 """
 struct FixedRankTaxonomy <: AbstractTaxonomy 
     ranks::Vector{TaxonomicRank}
-    tree::Union{FixedRankClassificationTree, Nothing}
-    FixedRankTaxonomy(; ranks = defaultranks()) = new(ranks, nothing)
-    FixedRankTaxonomy(tree::FixedRankClassificationTree; ranks = defaultranks()) = new(ranks, tree)
+    root::Union{TaxonNode, Nothing}
+    FixedRankTaxonomy(root::TaxonNode; ranks = defaultranks()) = new(ranks, root)
 end 
 
 
@@ -32,15 +31,15 @@ end
 """
 struct FlexibleRankTaxonomy <: AbstractTaxonomy 
     ranks::Vector{TaxonomicRank}
-    tree::Union{FlexibleRankClassificationTree, Nothing}
-    FlexibleRankTaxonomy(tree::FlexibleRankClassificationTree; ranks = defaultranks()) = new(ranks, tree)
-    FlexibleRankTaxonomy(; ranks = defaultranks()) = new(ranks, nothing)
+    root::Union{TaxonNode, Nothing}
+    FlexibleRankTaxonomy(root::TaxonNode; ranks = defaultranks()) = new(ranks, root)
 end 
 
 tree(t::AbstractTaxonomy) = t.tree
 ranks(t::AbstractTaxonomy) = t.ranks
+root(t::AbstractTaxonomy) = t.root
 
-Base.show(io::IO,t::FlexibleRankTaxonomy) = Base.show(io, AbstractTrees.print_tree(tree(t).root))
-Base.show(io::IO, t::FixedRankTaxonomy) = Base.show(io, AbstractTrees.print_tree(tree(t).root))
+Base.show(io::IO,t::FlexibleRankTaxonomy) = Base.show(io, AbstractTrees.print_tree(root(t)))
+Base.show(io::IO, t::FixedRankTaxonomy) = Base.show(io, AbstractTrees.print_tree(root(t)))
 
-defaultranks() = [TaxonomicRank(s,i) for (i,s) in enumerate(["Domain", "Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species"])]
+defaultranks() = [TaxonomicRank(Symbol(s),i-1) for (i,s) in enumerate(["domain", "kingdom", "phylum", "class", "order", "family", "genus", "species"])]
